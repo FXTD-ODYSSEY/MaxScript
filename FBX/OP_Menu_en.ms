@@ -1,4 +1,8 @@
-global MF_FBXEXP_FILE = (GetDir #temp) + "/MF_FBXEXP.txt"
+macroScript OP
+category: "OP FBX Export"
+tooltip: "MoreFun - FBX Export Tool"
+(
+    global MF_FBXEXP_FILE = (GetDir #temp) + "/MF_FBXEXP.txt"
 
 fn readFileAsString filePath = (
     if (doesFileExist filePath) then(
@@ -337,3 +341,21 @@ false
     )
 )
 createDialog MF_FBX_Export style:#(#style_minimizebox,#style_titlebar, #style_border, #style_sysmenu)
+
+)
+
+mainMenuBar = menuMan.getMainMenuBar()
+ori_OP_menu = menuMan.findMenu("OP")
+if (not ori_OP_menu == undefined) do
+(
+	menuMan.unRegisterMenu ori_OP_menu
+)
+subMenu = menuMan.createMenu "OP"
+FBXExportItem = menuMan.createActionItem "OP" "OP FBX Export"
+subMenu.addItem FBXExportItem -1
+subMenuItem = menuMan.createSubMenuItem "MoreFun - FBX Export Tool" subMenu
+subMenuIndex = mainMenuBar.numItems() - 1
+mainMenuBar.addItem subMenuItem subMenuIndex
+menuMan.updateMenuBar()
+  
+
